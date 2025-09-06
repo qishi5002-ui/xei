@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XeinHack - Game Keys Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 0 20px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #667eea;
+        }
+
+        .login-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.2s ease;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 22px;
+            height: 2px;
+            background: #667eea;
+            transition: all 0.3s ease;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 60px;
+            left: -100%;
+            width: 100%;
+            height: calc(100vh - 60px);
+            background: white;
+            z-index: 999;
+            transition: left 0.3s ease;
+            padding: 30px 20px;
+        }
+
+        .mobile-menu.open {
+            left: 0;
+        }
+
+        .mobile-menu-item {
+            display: block;
+            padding: 15px 0;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid #eee;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu-item:hover {
+            color: #667eea;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px 40px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Home Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .reminder {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        }
+
+        .product-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .delta-icon {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #e74c3c;
+        }
+
+        .pubg-icon {
+            background: linear-gradient(135deg, #ff9500, #ffb84d);
+            color: white;
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #667eea;
+            margin: 15px 0;
+        }
+
+        .price-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .price-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .buy-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            width: 100%;
+        }
+
+        .buy-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Track Order Section */
+        .track-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .track-section h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .track-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .track-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .order-status {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 12px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .status-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-box {
+            margin-top: 30px;
+            padding: 25px;
+            background: #e3f2fd;
+            border-radius: 12px;
+        }
+
+        .info-box h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .info-box p {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .admin-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .admin-btn:hover {
+            background: white;
+            color: #ff6b6b;
+        }
+
+        .admin-content {
+            margin-top: 20px;
+            text-align: left;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            padding: 25px 25px 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-body {
+            padding: 20px 25px;
+        }
+
+        .modal-footer {
+            padding: 15px 25px 25px;
+            border-top: 1px solid #eee;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .auth-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .phone-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .country-select {
+            width: 120px;
+            padding: 12px 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .phone-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .otp-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 0.3em;
+            margin-bottom: 20px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-bottom: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Receipt Page */
+        .receipt {
+            display: none;
+            text-align: center;
+            background: white;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 600px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .telegram-contact {
+            background: linear-gradient(45deg, #0088cc, #229ED9);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .telegram-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .telegram-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .phone-group {
+                flex-direction: column;
+            }
+
+            .country-select {
+                width: 100%;
+            }
+
+            .admin-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .admin-btn {
+                width: 100%;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">🎮 XeinHack</div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#" class="nav-link active" onclick="showSection('home')">Home</a>
+                <a href="#" class="nav-link" onclick="showSection('track')">Track Order</a>
+                <div id="authSection">
+                    <button class="login-btn" onclick="openAuth()">Login</button>
+                </div>
+            </div>
+
+            <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" class="mobile-menu-item" onclick="showSection('home'); closeMobileMenu();">Home</a>
+        <a href="#" class="mobile-menu-item" onclick="showSection('track'); closeMobileMenu();">Track Order</a>
+        <div id="mobileAuth" class="mobile-menu-item" onclick="openAuth(); closeMobileMenu();">Login</div>
+    </div>
+
+    <div class="container">
+        <!-- Home Section -->
+        <div class="section active" id="homeSection">
+            <div class="hero">
+                <h1>🎮 XeinHack</h1>
+                <p>Your Premium Game Keys Store - Fast, Secure, Reliable</p>
+            </div>
+
+            <div class="reminder">
+                📸 REMINDER: Please screenshot crypto payment and receipt
+            </div>
+
+            <div class="products">
+                <div class="product-card">
+                    <div class="product-icon delta-icon">⚔️</div>
+                    <div class="product-title">Delta Key</div>
+                    <div class="product-price">Starting from $5</div>
+                    <select class="price-select" id="deltaOptions">
+                        <option value="1 day - $5">1 Day - $5</option>
+                        <option value="3 days - $8">3 Days - $8</option>
+                        <option value="7 days - $12">7 Days - $12</option>
+                        <option value="30 days - $23">30 Days - $23</option>
+                    </select>
+                    <button class="buy-btn" onclick="buyProduct('Delta Key', 'deltaOptions')">Buy Now</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon pubg-icon">🎯</div>
+                    <div class="product-title">PUBG Key</div>
+                    <div class="product-price">Starting from $4</div>
+                    <select class="price-select" id="pubgOptions">
+                        <option value="1 day - $4">1 Day - $4</option>
+                        <option value="3 days - $7">3 Days - $7</option>
+                        <option value="7 days - $11">7 Days - $11</option>
+                        <option value="30 days - $22">30 Days - $22</option>
+                    </select>
+                    <button class="buy-btn" onclick="buyProduct('PUBG Key', 'pubgOptions')">Buy Now</button>
+                </div>
+            </div>
+
+            <!-- Receipt -->
+            <div class="receipt" id="receipt">
+                <h2 style="color: #667eea; margin-bottom: 20px;">🔄 Payment Processing</h2>
+                <div id="receiptDetails" style="text-align: left; background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                    <!-- Receipt content -->
+                </div>
+                <div class="telegram-contact">
+                    <h3>📱 Contact for Key Delivery</h3>
+                    <a href="https://t.me/cocomelonqueen" class="telegram-link" target="_blank">@cocomelonqueen</a>
+                    <div style="background: #fff3cd; border: 2px solid #ffeaa7; color: #856404; padding: 15px; border-radius: 8px; margin: 15px 0; font-weight: bold;">
+                        📋 NOTE: Send payment screenshot and this receipt to Telegram
+                    </div>
+                </div>
+                <button style="background: #6c757d; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; margin-top: 20px;" onclick="goHome()">← Back to Store</button>
+            </div>
+        </div>
+
+        <!-- Track Order Section -->
+        <div class="section" id="trackSection">
+            <div class="track-section">
+                <h2>Track Your Order</h2>
+                <div class="form-group">
+                    <label for="orderInput">Order ID</label>
+                    <input type="text" class="form-input" id="orderInput" placeholder="Enter your Order ID (e.g., XH123456ABC)">
+                </div>
+                <button class="track-btn" onclick="trackOrder()">Track Order</button>
+                
+                <div class="order-status" id="orderStatus">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">Order Status</h3>
+                    <div id="statusContent">
+                        <!-- Status content -->
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📋 How to Track Your Order</h3>
+                    <p>1. Enter your Order ID in the field above</p>
+                    <p>2. Click "Track Order" to view status</p>
+                    <p>3. Contact us on Telegram for any issues</p>
+                    <p style="font-weight: bold; color: #1976d2; margin-top: 10px;">📱 Support: @cocomelonqueen</p>
+                </div>
+
+                <!-- Admin Panel (shown only for admin) -->
+                <div id="adminPanel"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeAuth()">&times;</button>
+            <div class="modal-header">
+                <h2 id="authTitle">Welcome</h2>
+                <div class="auth-tabs">
+                    <div class="auth-tab active" onclick="switchAuthTab('login')">Login</div>
+                    <div class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="phoneStep">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <div class="phone-group">
+                            <select class="country-select" id="countryCode">
+                                <option value="+65">+65 Singapore</option>
+                                <option value="+60">+60 Malaysia</option>
+                                <option value="+1">+1 USA</option>
+                                <option value="+44">+44 UK</option>
+                                <option value="+86">+86 China</option>
+                                <option value="+91">+91 India</option>
+                                <option value="+81">+81 Japan</option>
+                                <option value="+82">+82 South Korea</option>
+                                <option value="+84">+84 Vietnam</option>
+                                <option value="+66">+66 Thailand</option>
+                                <option value="+63">+63 Philippines</option>
+                                <option value="+62">+62 Indonesia</option>
+                            </select>
+                            <input type="tel" class="phone-input" id="phoneNumber" placeholder="Enter phone number" maxlength="15">
+                        </div>
+                    </div>
+                    <button class="submit-btn" onclick="sendOTP()">Send OTP</button>
+                </div>
+
+                <div id="otpStep" style="display: none;">
+                    <div class="form-group">
+                        <label>Enter OTP</label>
+                        <input type="text" class="otp-input" id="otpInput" placeholder="000000" maxlength="6">
+                        <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">
+                            OTP sent to <span id="sentNumber"></span>
+                        </p>
+                    </div>
+                    <button class="submit-btn" onclick="verifyOTP()">Verify OTP</button>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <span style="color: #667eea; cursor: pointer; text-decoration: underline;" onclick="resendOTP()">Resend OTP</span>
+                        <span style="margin: 0 10px; color: #ccc;">|</span>
+                        <span style="color: #667eea; cursor: pointer; text-decoration: underline;" onclick="backToPhone()">Change Number</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeCheckout()">&times;</button>
+            <div class="modal-header">
+                <h2>Checkout</h2>
+                <p id="selectedProduct">Selected Product</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="telegramUser">Telegram Username *</label>
+                    <input type="text" class="form-input" id="telegramUser" placeholder="@username" required>
+                </div>
+                <div class="form-group">
+                    <label for="emailUser">Email (Optional)</label>
+                    <input type="email" class="form-input" id="emailUser" placeholder="your@email.com">
+                </div>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                    <h3 style="margin-bottom: 15px;">💳 Payment Information</h3>
+                    <p><strong>Network:</strong> TRC-20</p>
+                    <div style="background: #e9ecef; padding: 15px; border-radius: 8px; margin: 15px 0; position: relative;">
+                        <p><strong>Wallet Address:</strong></p>
+                        <p id="walletAddr" style="font-family: monospace; font-size: 0.9rem; word-break: break-all; margin: 8px 0;">TEwKbkNdXqvNUG951nYTCRF6UjLGBn7pqc</p>
+                        <button onclick="copyWallet()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: #667eea; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.8rem;">Copy</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="submit-btn" onclick="completePurchase()">Complete Purchase</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let authMode = 'login';
+        let currentProduct = '';
+        let currentPrice = '';
+        const ADMIN_PHONE = '+6580256348';
+
+        // Sample orders
+        const orders = {
+            'XH123456ABC': {
+                id: 'XH123456ABC',
+                product: 'Delta Key',
+                duration: '7 days - $12',
+                status: 'Processing',
+                date: '2024-01-15',
+                telegram: '@user123'
+            },
+            'XH789012DEF': {
+                id: 'XH789012DEF',
+                product: 'PUBG Key',
+                duration: '30 days - $22',
+                status: 'Delivered',
+                date: '2024-01-14',
+                telegram: '@gamer456'
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            checkSession();
+        });
+
+        // Navigation
+        function showSection(section) {
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(s => {
+                s.classList.remove('active');
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(section + 'Section');
+            if (targetSection) {
+                targetSection.classList.add('active');
+                
+                // Update active nav link
+                event.target.classList.add('active');
+                
+                // Show admin panel if admin and on track page
+                if (section === 'track' && currentUser && currentUser.phone === ADMIN_PHONE) {
+                    setTimeout(showAdminPanel, 100);
+                }
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburger');
+            
+            menu.classList.toggle('open');
+            hamburger.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburger');
+            
+            menu.classList.remove('open');
+            hamburger.classList.remove('active');
+        }
+
+        // Authentication
+        function openAuth() {
+            if (currentUser) {
+                logout();
+                return;
+            }
+            document.getElementById('authModal').style.display = 'block';
+        }
+
+        function closeAuth() {
+            document.getElementById('authModal').style.display = 'none';
+            resetAuth();
+        }
+
+        function switchAuthTab(mode) {
+            authMode = mode;
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.getElementById('authTitle').textContent = mode === 'login' ? 'Welcome Back' : 'Create Account';
+        }
+
+        function resetAuth() {
+            document.getElementById('phoneStep').style.display = 'block';
+            document.getElementById('otpStep').style.display = 'none';
+            document.getElementById('phoneNumber').value = '';
+            document.getElementById('otpInput').value = '';
+        }
+
+        function sendOTP() {
+            const countryCode = document.getElementById('countryCode').value;
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            
+            if (!phoneNumber) {
+                alert('Please enter your phone number');
+                return;
+            }
+            
+            if (phoneNumber.length < 7) {
+                alert('Please enter a valid phone number');
+                return;
+            }
+            
+            const fullNumber = countryCode + phoneNumber;
+            
+            document.getElementById('phoneStep').style.display = 'none';
+            document.getElementById('otpStep').style.display = 'block';
+            document.getElementById('sentNumber').textContent = fullNumber;
+            document.getElementById('otpInput').focus();
+            
+            alert('OTP sent! Use 123456 to verify (demo)');
+        }
+
+        function verifyOTP() {
+            const otp = document.getElementById('otpInput').value.trim();
+            
+            if (otp.length !== 6) {
+                alert('Please enter the 6-digit OTP');
+                return;
+            }
+            
+            if (otp === '123456' || otp === '000000') {
+                const countryCode = document.getElementById('countryCode').value;
+                const phoneNumber = document.getElementById('phoneNumber').value.trim();
+                const fullNumber = countryCode + phoneNumber;
+                
+                currentUser = {
+                    phone: fullNumber,
+                    loginTime: new Date().toISOString()
+                };
+                
+                sessionStorage.setItem('xeinhack_user', JSON.stringify(currentUser));
+                updateAuthUI();
+                closeAuth();
+                
+                alert('Successfully ' + (authMode === 'login' ? 'logged in' : 'signed up') + '!');
+            } else {
+                alert('Invalid OTP. Please try again.');
+            }
+        }
+
+        function resendOTP() {
+            const sentNumber = document.getElementById('sentNumber').textContent;
+            const isAdmin = sentNumber === ADMIN_PHONE;
+            
+            if (isAdmin) {
+                alert('Admin OTP resent! Use 312005 to verify');
+            } else {
+                alert('OTP resent! Use 123456 to verify (demo)');
+            }
+        }
+
+        function backToPhone() {
+            document.getElementById('otpStep').style.display = 'none';
+            document.getElementById('phoneStep').style.display = 'block';
+        }
+
+        function checkSession() {
+            const userData = sessionStorage.getItem('xeinhack_user');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                updateAuthUI();
+            }
+        }
+
+        function updateAuthUI() {
+            const authSection = document.getElementById('authSection');
+            const mobileAuth = document.getElementById('mobileAuth');
+            
+            if (currentUser) {
+                const isAdmin = currentUser.phone === ADMIN_PHONE;
+                const displayName = isAdmin ? '👑 Admin' : `📱 ${currentUser.phone}`;
+                
+                authSection.innerHTML = `
+                    <div class="user-info">
+                        <span>${displayName}</span>
+                        <button class="logout-btn" onclick="logout()">Logout</button>
+                    </div>
+                `;
+                
+                mobileAuth.innerHTML = `
+                    <div style="padding: 10px 0;">
+                        <div style="font-size: 0.9rem; color: #666;">${displayName}</div>
+                        <button class="logout-btn" style="margin-top: 10px; width: 100%;" onclick="logout()">Logout</button>
+                    </div>
+                `;
+            } else {
+                authSection.innerHTML = '<button class="login-btn" onclick="openAuth()">Login</button>';
+                mobileAuth.innerHTML = 'Login';
+                mobileAuth.onclick = function() { openAuth(); closeMobileMenu(); };
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            sessionStorage.removeItem('xeinhack_user');
+            updateAuthUI();
+            showSection('home');
+            hideAdminPanel();
+            alert('Successfully logged out!');
+        }
+
+        // Product functions
+        function buyProduct(product, selectId) {
+            const select = document.getElementById(selectId);
+            const selectedOption = select.value;
+            
+            currentProduct = product;
+            currentPrice = selectedOption;
+            
+            document.getElementById('selectedProduct').textContent = `${product} - ${selectedOption}`;
+            document.getElementById('checkoutModal').style.display = 'block';
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        function copyWallet() {
+            const address = document.getElementById('walletAddr').textContent;
+            navigator.clipboard.writeText(address).then(function() {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = '#28a745';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#667eea';
+                }, 2000);
+            });
+        }
+
+        function generateOrderId() {
+            return 'XH' + Date.now().toString().slice(-6) + Math.random().toString(36).substr(2, 3).toUpperCase();
+        }
+
+        function completePurchase() {
+            const telegram = document.getElementById('telegramUser').value.trim();
+            const email = document.getElementById('emailUser').value.trim();
+            
+            if (!telegram) {
+                alert('Please enter your Telegram username');
+                return;
+            }
+            
+            const orderData = {
+                orderId: generateOrderId(),
+                product: currentProduct,
+                price: currentPrice,
+                telegram: telegram,
+                email: email || 'Not provided',
+                userPhone: currentUser ? currentUser.phone : 'Guest'
+            };
+            
+            closeCheckout();
+            showReceipt(orderData);
+        }
+
+        function showReceipt(orderData) {
+            const details = document.getElementById('receiptDetails');
+            const date = new Date().toLocaleDateString();
+            const time = new Date().toLocaleTimeString();
+            
+            details.innerHTML = `
+                <div class="status-row">
+                    <span><strong>Order ID:</strong></span>
+                    <span>${orderData.orderId}</span>
+                </div>
+                <div class="status-row">
+                    <span><strong>Product:</strong></span>
+                    <span>${orderData.product}</span>
+                </div>
+                <div class="status-row">
+                    <span><strong>Duration & Price:</strong></span>
+                    <span>${orderData.price}</span>
+                </div>
+                <div class="status-row">
+                    <span><strong>Customer Phone:</strong></span>
+                    <span>${orderData.userPhone}</span>
+                </div>
+                <div class="status-row">
+                    <span><strong>Telegram:</strong></span>
+                    <span>${orderData.telegram}</span>
+                </div>
+                <div class="status-row">
+                    <span><strong>Email:</strong></span>
+                    <span>${orderData.email}</span>
+                </div>
+                <div class="status-row">
+                    <span><strong>Date:</strong></span>
+                    <span>${date}</span>
+                </div>
+                <div class="status-row">
+                    <span><strong>Time:</strong></span>
+                    <span>${time}</span>
+                </div>
+                <div class="status-row">
+                    <span><strong>Payment Method:</strong></span>
+                    <span>TRC-20 Wallet</span>
+                </div>
+            `;
+            
+            document.querySelector('.hero').style.display = 'none';
+            document.querySelector('.reminder').style.display = 'none';
+            document.querySelector('.products').style.display = 'none';
+            document.getElementById('receipt').style.display = 'block';
+        }
+
+        function goHome() {
+            document.getElementById('receipt').style.display = 'none';
+            document.querySelector('.products').style.display = 'grid';
+            document.querySelector('.reminder').style.display = 'block';
+            document.querySelector('.hero').style.display = 'block';
+        }
+
+        // Order tracking
+        function trackOrder() {
+            const orderId = document.getElementById('orderInput').value.trim().toUpperCase();
+            const statusDiv = document.getElementById('orderStatus');
+            const statusContent = document.getElementById('statusContent');
+            
+            if (!orderId) {
+                alert('Please enter an Order ID');
+                return;
+            }
+            
+            const order = orders[orderId];
+            
+            if (order) {
+                statusContent.innerHTML = `
+                    <div class="status-row">
+                        <span><strong>Order ID:</strong></span>
+                        <span>${order.id}</span>
+                    </div>
+                    <div class="status-row">
+                        <span><strong>Product:</strong></span>
+                        <span>${order.product}</span>
+                    </div>
+                    <div class="status-row">
+                        <span><strong>Duration:</strong></span>
+                        <span>${order.duration}</span>
+                    </div>
+                    <div class="status-row">
+                        <span><strong>Status:</strong></span>
+                        <span style="color: ${getStatusColor(order.status)}; font-weight: bold;">${order.status}</span>
+                    </div>
+                    <div class="status-row">
+                        <span><strong>Date:</strong></span>
+                        <span>${order.date}</span>
+                    </div>
+                    <div class="status-row">
+                        <span><strong>Customer:</strong></span>
+                        <span>${order.telegram}</span>
+                    </div>
+                    ${getStatusMessage(order.status)}
+                `;
+                statusDiv.style.display = 'block';
+            } else {
+                statusContent.innerHTML = `
+                    <div style="text-align: center; padding: 30px;">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">❌</div>
+                        <h3 style="color: #dc3545; margin-bottom: 15px;">Order Not Found</h3>
+                        <p style="color: #666; margin-bottom: 10px;">Order ID "${orderId}" was not found in our system.</p>
+                        <p style="color: #666;">Please check your Order ID or contact support.</p>
+                        <div style="margin-top: 25px; padding: 20px; background: #f8d7da; border-radius: 8px; color: #721c24;">
+                            <strong>Need Help?</strong><br>
+                            Contact: <strong>@cocomelonqueen</strong>
+                        </div>
+                    </div>
+                `;
+                statusDiv.style.display = 'block';
+            }
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'Processing': '#007bff',
+                'Delivered': '#28a745',
+                'Payment Pending': '#ffc107',
+                'Cancelled': '#dc3545'
+            };
+            return colors[status] || '#6c757d';
+        }
+
+        function getStatusMessage(status) {
+            const messages = {
+                'Processing': `
+                    <div style="margin-top: 20px; padding: 20px; background: #d1ecf1; border-radius: 8px; color: #0c5460;">
+                        <strong>🔄 Processing</strong><br>
+                        Your payment has been received and we are processing your order. 
+                        You will receive your game key within 24 hours via Telegram.
+                    </div>
+                `,
+                'Delivered': `
+                    <div style="margin-top: 20px; padding: 20px; background: #d4edda; border-radius: 8px; color: #155724;">
+                        <strong>✅ Delivered</strong><br>
+                        Your game key has been successfully delivered to your Telegram account. 
+                        Enjoy your game!
+                    </div>
+                `,
+                'Payment Pending': `
+                    <div style="margin-top: 20px; padding: 20px; background: #fff3cd; border-radius: 8px; color: #856404;">
+                        <strong>⏳ Payment Pending</strong><br>
+                        We are waiting for your payment. Please complete the payment and contact us on Telegram 
+                        with your payment screenshot and order ID.
+                    </div>
+                `,
+                'Cancelled': `
+                    <div style="margin-top: 20px; padding: 20px; background: #f8d7da; border-radius: 8px; color: #721c24;">
+                        <strong>❌ Cancelled</strong><br>
+                        This order has been cancelled. If you have any questions, please contact our support team.
+                    </div>
+                `
+            };
+            return messages[status] || '';
+        }
+
+        // Admin functions
+        function showAdminPanel() {
+            if (!currentUser || currentUser.phone !== ADMIN_PHONE) return;
+            
+            const adminPanel = document.getElementById('adminPanel');
+            adminPanel.innerHTML = `
+                <div class="admin-panel">
+                    <h3>👑 Admin Panel</h3>
+                    <p>Welcome, Administrator</p>
+                    <div class="admin-actions">
+                        <button class="admin-btn" onclick="viewAllOrders()">View All Orders</button>
+                        <button class="admin-btn" onclick="manageUsers()">Manage Users</button>
+                        <button class="admin-btn" onclick="updateOrderStatus()">Update Orders</button>
+                    </div>
+                    <div class="admin-content" id="adminContent">
+                        <!-- Admin content will be loaded here -->
+                    </div>
+                </div>
+            `;
+        }
+
+        function hideAdminPanel() {
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) {
+                adminPanel.innerHTML = '';
+            }
+        }
+
+        function viewAllOrders() {
+            const adminContent = document.getElementById('adminContent');
+            if (!adminContent) return;
+            
+            let ordersHtml = '<h4 style="color: white; margin-bottom: 15px;">📋 All Orders</h4>';
+            
+            Object.values(orders).forEach(order => {
+                ordersHtml += `
+                    <div style="background: rgba(255,255,255,0.9); color: #333; padding: 15px; margin: 10px 0; border-radius: 8px;">
+                        <strong>${order.id}</strong> - ${order.product} (${order.duration})
+                        <br><small>Status: <span style="color: ${getStatusColor(order.status)}">${order.status}</span> | Customer: ${order.telegram} | Date: ${order.date}</small>
+                    </div>
+                `;
+            });
+            
+            adminContent.innerHTML = ordersHtml;
+            adminContent.style.display = 'block';
+        }
+
+        function manageUsers() {
+            const adminContent = document.getElementById('adminContent');
+            if (!adminContent) return;
+            
+            adminContent.innerHTML = `
+                <h4 style="color: white; margin-bottom: 15px;">👥 User Management</h4>
+                <div style="background: rgba(255,255,255,0.9); color: #333; padding: 20px; border-radius: 8px;">
+                    <p><strong>Total Registered Users:</strong> 1,247</p>
+                    <p><strong>Active Users (Last 30 days):</strong> 892</p>
+                    <p><strong>Admin Users:</strong> 1</p>
+                    <div style="margin-top: 20px;">
+                        <button style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-right: 10px; cursor: pointer;" onclick="alert('Export feature would be implemented here')">Export Users</button>
+                        <button style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;" onclick="alert('Notification feature would be implemented here')">Send Notification</button>
+                    </div>
+                </div>
+            `;
+            adminContent.style.display = 'block';
+        }
+
+        function updateOrderStatus() {
+            const adminContent = document.getElementById('adminContent');
+            if (!adminContent) return;
+            
+            adminContent.innerHTML = `
+                <h4 style="color: white; margin-bottom: 15px;">🔄 Update Order Status</h4>
+                <div style="background: rgba(255,255,255,0.9); color: #333; padding: 20px; border-radius: 8px;">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Order ID:</label>
+                        <input type="text" id="adminOrderId" placeholder="Enter Order ID" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">New Status:</label>
+                        <select id="adminOrderStatus" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="Payment Pending">Payment Pending</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <button onclick="updateOrderStatusAdmin()" style="background: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold;">Update Status</button>
+                </div>
+            `;
+            adminContent.style.display = 'block';
+        }
+
+        function updateOrderStatusAdmin() {
+            const orderIdInput = document.getElementById('adminOrderId');
+            const statusSelect = document.getElementById('adminOrderStatus');
+            
+            if (!orderIdInput || !statusSelect) {
+                alert('Error: Form elements not found');
+                return;
+            }
+            
+            const orderId = orderIdInput.value.trim().toUpperCase();
+            const newStatus = statusSelect.value;
+            
+            if (!orderId) {
+                alert('Please enter an Order ID');
+                return;
+            }
+            
+            if (orders[orderId]) {
+                orders[orderId].status = newStatus;
+                alert(`Order ${orderId} status updated to: ${newStatus}`);
+                orderIdInput.value = '';
+            } else {
+                alert('Order ID not found');
+            }
+        }
+
+        // Event listeners
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+
+        // Phone number formatting
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInput = document.getElementById('phoneNumber');
+            const otpInput = document.getElementById('otpInput');
+            
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                });
+            }
+            
+            if (otpInput) {
+                otpInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 6) value = value.slice(0, 6);
+                    e.target.value = value;
+                    
+                    if (value.length === 6) {
+                        setTimeout(verifyOTP, 500);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
